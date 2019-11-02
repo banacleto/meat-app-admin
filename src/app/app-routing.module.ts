@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'orders/list',
+    redirectTo: 'orders',
     pathMatch: 'full'
   },
   {
