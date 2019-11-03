@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ContentLayoutComponent } from './components/layout/content-layout/content-layout.component';
+import { MockServerResultsService } from './services/mock-server-results-service';
 import { OrderService } from './services/order.service';
 
 @NgModule({
@@ -14,8 +15,10 @@ import { OrderService } from './services/order.service';
     // Importanto as dependências do módulo
     imports: [CommonModule, HttpClientModule, RouterModule],
 
-    // componentes do módulo que poderão ser utilizados por outros módulos
+    // Componentes do módulo que poderão ser utilizados por outros módulos
     exports: [HeaderComponent, FooterComponent, ContentLayoutComponent],
-    providers: [OrderService]
+
+    // Serviços que serão utilizados pelo módulo
+    providers: [OrderService, MockServerResultsService]
 })
 export class SharedModule { }

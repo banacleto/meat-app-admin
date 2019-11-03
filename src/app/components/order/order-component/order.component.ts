@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Order } from 'src/app/shared/models/order.model';
-import { OrderService } from 'src/app/shared/services/order.service';
+import { ColumnMode } from 'projects/swimlane/ngx-datatable/src/public-api';
+import { CorporateEmployee } from 'src/app/shared/models/pagination/corporate-employee';
+import { Page } from 'src/app/shared/models/pagination/page';
+import { MockServerResultsService } from 'src/app/shared/services/mock-server-results-service';
 
 @Component({
   selector: 'app-order',
@@ -9,16 +11,30 @@ import { OrderService } from 'src/app/shared/services/order.service';
 })
 export class OrderComponent implements OnInit {
 
-  orders: Order[]
+  page = new Page();
+  rows = new Array<CorporateEmployee>();
 
-  constructor(private orderService: OrderService) { }
+  ColumnMode = ColumnMode;
+
+  constructor(private serverResultsService: MockServerResultsService) {
+    this.page.pageNumber = 0;
+    this.page.size = 10;
+  }
 
   ngOnInit() {
-    this.orderService.orders().subscribe(orders => this.orders = orders)
+    this.setPage({ offset: 0 });
   }
 
-  edit(): void {
-    console.log("clicou")
+  /**
+   * Populate the table with new data based on the page number
+   * @param page The page to select
+   */
+  setPage(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+    this.serverResultsService.getResults(this.page).subscribe(pagedData => {
+      this.page = pagedData.page;
+      this.rows = pagedData.data;
+    });
   }
-
+  
 }
