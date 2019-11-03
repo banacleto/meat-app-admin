@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from 'projects/swimlane/ngx-datatable/src/public-api';
-import { CorporateEmployee } from 'src/app/shared/models/pagination/corporate-employee';
+import { Order } from 'src/app/shared/models/order/order.model';
 import { Page } from 'src/app/shared/models/pagination/page';
-import { MockServerResultsService } from 'src/app/shared/services/mock-server-results-service';
+import { OrderService } from 'src/app/shared/services/order.service';
 
 @Component({
   selector: 'app-order',
@@ -12,11 +12,16 @@ import { MockServerResultsService } from 'src/app/shared/services/mock-server-re
 export class OrderComponent implements OnInit {
 
   page = new Page();
-  rows = new Array<CorporateEmployee>();
 
   ColumnMode = ColumnMode;
+  columns: any[] = [
+    { name: 'ID', prop: '_id' }, { name: 'Nome', prop: 'name' }, { name: 'e-Mail', prop: 'email' },
+    { name: 'Endereço', prop: 'address' }, { name: 'Número', prop: 'number' },
+    { name: 'Forma de Pagamento', prop: 'paymentOption' }
+  ];
+  rows = new Array<Order>();
 
-  constructor(private serverResultsService: MockServerResultsService) {
+  constructor(private orderService: OrderService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }
@@ -31,10 +36,16 @@ export class OrderComponent implements OnInit {
    */
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.serverResultsService.getResults(this.page).subscribe(pagedData => {
+    this.orderService.orders(this.page).subscribe(pagedData => {
       this.page = pagedData.page;
       this.rows = pagedData.data;
     });
   }
-  
+
+  onActivate(event) {
+    if (event.type == 'click') {
+      console.log(event.row);
+    }
+  }
+
 }

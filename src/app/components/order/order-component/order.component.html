@@ -4,14 +4,13 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Lista de Pedidos</h5>
+                    <h5>Pedidos</h5>
                 </div>
                 <div class="card-body custom-datatable">
-                    <ngx-datatable class="bootstrap" [rows]="rows"
-                        [columns]="[{ name: 'Name' }, { name: 'Gender' }, { name: 'Company' }]"
+                    <ngx-datatable class="bootstrap hoverme" [rows]="rows" [columns]="columns"
                         [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                         [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
-                        [limit]="page.size" (page)="setPage($event)">
+                        [limit]="page.size" (page)="setPage($event)" (activate)="onActivate($event)" resizeable="true">
                     </ngx-datatable>
                 </div>
             </div>
